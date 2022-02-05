@@ -9,8 +9,8 @@ import org.apache.camel.impl.DefaultCamelContext;
 import javax.jms.ConnectionFactory;
 
 /**
- * A route that polls an FTP server for new orders, downloads them, converts the order 
- * file into a JMS Message and then sends it to the JMS incomingOrders queue hosted 
+ * A route that polls an FTP server for new orders, downloads them, converts the order
+ * file into a JMS Message and then sends it to the JMS incomingOrders queue hosted
  * on an embedded ActiveMQ broker instance.
  */
 public class FtpToJMSExample {
@@ -28,8 +28,9 @@ public class FtpToJMSExample {
         context.addRoutes(new RouteBuilder() {
             @Override
             public void configure() {
-//                from("jms:hi").to("jms:test");
-                from("file:data/inbox?noop=true").to("jms:fileQueue");
+                from("file:data/inbox?noop=true")
+                        .process(exchange -> System.out.println(exchange.toString() + "the exchange"))
+                        .to("jms:fileQueue");
             }
         });
 
